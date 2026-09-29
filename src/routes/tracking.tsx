@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Check, MessageCircle, Phone } from "lucide-react";
 import { productById } from "@/data/products";
@@ -27,6 +27,8 @@ const PATH = "M40,200 C120,190 110,110 190,110 S280,40 360,50";
 function Tracking() {
   const order = useStore((s) => s.lastOrder);
   const [now, setNow] = useState(() => Date.now());
+  const pathRef = useRef<SVGPathElement>(null);
+  const [pt, setPt] = useState({ x: 40, y: 200 });
   useEffect(() => { const t = setInterval(() => setNow(Date.now()), 1000); return () => clearInterval(t); }, []);
   if (!order) return <EmptyState emoji="🛵" title="No active orders" text="Place an order and track it live here."><Link to="/" className="press rounded-full bg-brand px-5 py-2 text-sm font-bold text-brand-foreground">Start shopping</Link></EmptyState>;
 
@@ -37,6 +39,17 @@ function Tracking() {
   const left = Math.max(0, TOTAL - elapsed) / 6;
   const mm = Math.floor(left / 60000), ss = Math.floor((left % 60000) / 1000);
   const riderT = Math.max(0, (prog - 0.35) / 0.65);
+  return <TrackingView {...{ order, step, mm, ss, riderT, pathRef, pt, setPt }} />;
+}
+
+function TrackingView({ order, step, mm, ss, riderT, pathRef, pt, setPt }: {
+  order: NonNullable<ReturnType<typeof useStore<import("@/store/store").State["lastOrder"]>>>; step: number; mm: number; ss: number; riderT: number;
+  pathRef: React.RefObject<SVGPathElement | null>; pt: { x: number; y: number }; setPt: (p: { x: number; y: number }) => void;
+}) {
+  useEffect(() => {
+    const el = pathRef.current; if (!el) return;
+    const p = el.getPointAtLength(el.getTotalLength() * riderT); setPt({ x: p.x, y: p.y });
+  }, [riderT, pathRef, setPt]);
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-6">
@@ -59,13 +72,12 @@ function Tracking() {
         <svg viewBox="0 0 400 240" className="h-64 w-full sm:h-80">
           {[30, 90, 150, 210].map((y) => <line key={y} x1="0" y1={y} x2="400" y2={y - 20} className="stroke-card" strokeWidth="12" />)}
           {[80, 220, 330].map((x) => <line key={x} x1={x} y1="0" x2={x - 30} y2="240" className="stroke-card" strokeWidth="10" />)}
-          <path id="route" d={PATH} fill="none" className="stroke-brand" strokeWidth="4" strokeDasharray="8 6" strokeLinecap="round" />
+          <path ref={pathRef} d={PATH} fill="none" className="stroke-brand" strokeWidth="4" strokeDasharray="8 6" strokeLinecap="round" />
           <text x="22" y="215" fontSize="26">🏪</text>
           <text x="345" y="45" fontSize="26">🏠</text>
-          <g>
+          <g style={{ transform: `translate(${pt.x}px, ${pt.y}px)`, transition: "transform 1s linear" }}>
             <circle r="16" className="fill-highlight" opacity=".35"><animate attributeName="r" values="12;20;12" dur="1.6s" repeatCount="indefinite" /></circle>
             <text x="-12" y="8" fontSize="22">🛵</text>
-            <animateMotion dur="0.01s" fill="freeze" keyPoints={`${riderT};${riderT}`} keyTimes="0;1" calcMode="linear" path={PATH} key={Math.round(riderT * 200)} />
           </g>
         </svg>
       </div>
