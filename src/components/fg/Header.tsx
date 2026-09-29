@@ -81,7 +81,7 @@ export function Header() {
   const address = useStore((s) => s.address);
   const dark = useStore((s) => s.dark);
   const bump = useStore((s) => s.ui.cartBump);
-  const { count, total } = useStore((s) => cartSummary(s));
+  const { count, total } = cartSummary(useStore((s) => s));
   useEffect(() => { const f = () => setScrolled(scrollY > 8); f(); addEventListener("scroll", f, { passive: true }); return () => removeEventListener("scroll", f); }, []);
 
   return (
