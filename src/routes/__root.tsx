@@ -8,6 +8,13 @@ import {
   Scripts,
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
+import { Toaster } from "@/components/ui/sonner";
+import { Header } from "@/components/fg/Header";
+import { Footer } from "@/components/fg/Footer";
+import { CartDrawer } from "@/components/fg/CartDrawer";
+import { QuickView, AddressModal } from "@/components/fg/Modals";
+import { AiChat } from "@/components/fg/AiChat";
+import { store, useStore } from "@/store/store";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
@@ -77,14 +84,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "FreshGenie — Groceries in 10 minutes, planned by AI" },
+      { name: "description", content: "AI-powered quick-commerce: fresh groceries delivered in minutes." },
+      { property: "og:title", content: "FreshGenie — Groceries in 10 minutes" },
+      { property: "og:description", content: "AI-powered quick-commerce: fresh groceries delivered in minutes." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
+      
     ],
     links: [
       {
@@ -92,6 +98,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: appCss,
       },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" },
     ],
   }),
   shellComponent: RootShell,
@@ -116,11 +125,21 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const dark = useStore((s) => s.dark);
+  useEffect(() => { store.hydrate(); }, []);
+  useEffect(() => { document.documentElement.classList.toggle("dark", dark); }, [dark]);
 
   return (
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <Header />
+      <main className="min-h-[70vh]"><Outlet /></main>
+      <Footer />
+      <CartDrawer />
+      <QuickView />
+      <AddressModal />
+      <AiChat />
+      <Toaster position="bottom-center" richColors />
     </QueryClientProvider>
   );
 }

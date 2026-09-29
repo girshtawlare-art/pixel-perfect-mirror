@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Check, MapPin, Plus, Sparkles as _s, Star, X } from "lucide-react";
+import { Check, MapPin, Plus, Star, X } from "lucide-react";
 import { productById } from "@/data/products";
 import { api } from "@/services/api";
 import { whyRecommend } from "@/services/ai";
@@ -9,7 +9,6 @@ import { AddButton, ProductArt } from "./primitives";
 import { ProductCard } from "./ProductCard";
 import { useEsc } from "./CartDrawer";
 import { cn } from "@/lib/utils";
-void _s;
 
 function Shell({ onClose, label, children, className }: { onClose: () => void; label: string; children: React.ReactNode; className?: string }) {
   useEsc(true, onClose);
