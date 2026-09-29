@@ -21,14 +21,14 @@ export const Route = createFileRoute("/checkout")({
   component: Checkout,
 });
 
-const PAY = [["upi", "📱", "UPI", "GPay, PhonePe, Paytm"], ["card", "💳", "Cards", "Credit & debit"], ["cod", "💵", "Cash on Delivery", "Pay at your door"], ["wallet", "👛", "Wallet", "FreshGenie balance ₹120"]];
+const PAY: [string, string, string, string][] = [["upi", "📱", "UPI", "GPay, PhonePe, Paytm"], ["card", "💳", "Cards", "Credit & debit"], ["cod", "💵", "Cash on Delivery", "Pay at your door"], ["wallet", "👛", "Wallet", "FreshGenie balance ₹120"]];
 const SLOTS = ["7–8 PM", "8–9 PM", "Tomorrow 7–9 AM"];
 
 function Checkout() {
   const s = useStore((x) => x);
   const sum = cartSummary(s);
   const [slot, setSlot] = useState<"instant" | "scheduled">("instant");
-  const [time, setTime] = useState(SLOTS[0]);
+  const [time, setTime] = useState<string>(SLOTS[0]!);
   const [pay, setPay] = useState("upi");
   const [placing, setPlacing] = useState(false);
   const nav = useNavigate();

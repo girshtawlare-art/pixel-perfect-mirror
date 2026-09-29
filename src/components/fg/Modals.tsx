@@ -35,7 +35,7 @@ function QuickViewInner({ id }: { id: string }) {
   const [variant, setVariant] = useState(0);
   const close = () => store.ui({ quickView: null });
   if (!p) return null;
-  const v = p.variants[variant];
+  const v = p.variants[variant] ?? p.variants[0]!;
   const price = Math.round(p.price * v.mult), mrp = Math.round(p.mrp * v.mult);
   const views = ["", "scale-x-[-1]", "rotate-12"];
   return (

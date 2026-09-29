@@ -19,8 +19,8 @@ export function HeroCarousel() {
   return (
     <section aria-roledescription="carousel" aria-label="Offers" className="animate-fade-up relative overflow-hidden rounded-3xl"
       onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}
-      onTouchStart={(e) => (touch.current = e.touches[0].clientX)}
-      onTouchEnd={(e) => { const d = e.changedTouches[0].clientX - touch.current; if (Math.abs(d) > 40) setI((x) => (x + (d < 0 ? 1 : BANNERS.length - 1)) % BANNERS.length); }}>
+      onTouchStart={(e) => (touch.current = e.touches[0]?.clientX ?? 0)}
+      onTouchEnd={(e) => { const d = (e.changedTouches[0]?.clientX ?? 0) - touch.current; if (Math.abs(d) > 40) setI((x) => (x + (d < 0 ? 1 : BANNERS.length - 1)) % BANNERS.length); }}>
       <div className="flex transition-transform duration-700 ease-[cubic-bezier(.2,.8,.2,1)]" style={{ transform: `translateX(-${i * 100}%)` }}>
         {BANNERS.map((b, k) => (
           <div key={k} className="relative flex h-44 w-full shrink-0 items-center justify-between overflow-hidden px-6 sm:h-56 sm:px-12" style={{ background: b.bg }} aria-hidden={k !== i}>

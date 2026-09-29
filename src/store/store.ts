@@ -21,7 +21,7 @@ const defaultAddresses: Address[] = [
 
 const initial: State = {
   cart: {},
-  address: defaultAddresses[0],
+  address: defaultAddresses[0]!,
   savedAddresses: defaultAddresses,
   recentSearches: [],
   pastOrders: ["amul-toned-milk", "harvest-gold-brown-bread", "freshfarm-banana-robusta", "egghub-farm-eggs", "amul-malai-paneer", "tata-tea-assam-tea", "lay-s-classic-salted-chips", "freshfarm-onion"],

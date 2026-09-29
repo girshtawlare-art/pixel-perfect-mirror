@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 export function ProductCard({ p, className }: { p: Product; className?: string }) {
   const art = useRef<HTMLDivElement>(null);
   const off = discountPct(p.price, p.mrp);
-  const press = useRef<ReturnType<typeof setTimeout>>();
+  const press = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const open = () => store.ui({ quickView: p.id });
   return (
     <article
@@ -39,7 +39,7 @@ export function ProductCard({ p, className }: { p: Product; className?: string }
   );
 }
 
-export function ProductRow({ title, items, loading, action }: { title: string; items?: Product[]; loading?: boolean; action?: React.ReactNode }) {
+export function ProductRow({ title, items, loading, action }: { title: string; items?: Product[] | undefined; loading?: boolean; action?: React.ReactNode }) {
   const ref = useRef<HTMLDivElement>(null);
   const [atStart, setAtStart] = useState(true);
   const scroll = (d: number) => ref.current?.scrollBy({ left: d * ref.current.clientWidth * 0.8, behavior: "smooth" });

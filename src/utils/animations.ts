@@ -39,7 +39,7 @@ export function confetti() {
   const parts = Array.from({ length: 140 }, () => ({
     x: innerWidth / 2, y: innerHeight * 0.4,
     vx: (Math.random() - 0.5) * 16, vy: Math.random() * -14 - 4,
-    s: Math.random() * 6 + 4, r: Math.random() * 6, c: colors[(Math.random() * colors.length) | 0],
+    s: Math.random() * 6 + 4, r: Math.random() * 6, c: colors[(Math.random() * colors.length) | 0] ?? "#0C831F",
   }));
   let f = 0;
   const tick = () => {

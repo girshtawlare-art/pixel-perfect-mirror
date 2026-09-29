@@ -25,7 +25,7 @@ export async function generateBasket(prompt: string): Promise<{ title: string; i
   const people = Number(t.match(/(\d+)\s*(people|persons|guests|pax)/)?.[1] ?? 2);
   const scale = people / 2;
   const key = Object.keys(RECIPES).find((k) => t.includes(k) || k.split(" ").some((w) => w.length > 4 && t.includes(w)));
-  if (key) return { title: `${key.replace(/\b\w/g, (c) => c.toUpperCase())} for ${people}`, items: resolve(RECIPES[key], scale) };
+  if (key) return { title: `${key.replace(/\b\w/g, (c) => c.toUpperCase())} for ${people}`, items: resolve(RECIPES[key] ?? [], scale) };
   const hits = products.filter((p) => t.split(/\W+/).some((w) => w.length > 2 && p.name.toLowerCase().includes(w))).slice(0, 6);
   if (hits.length) return { title: "Here's what I found", items: hits.map((product) => ({ product, qty: 1, note: "" })) };
   return { title: "A quick everyday basket", items: resolve([["Toned Milk", 2, ""], ["Brown Bread", 1, ""], ["Eggs", 1, ""], ["Banana", 1, ""], ["Tomato", 1, ""], ["Onion", 1, ""]]) };

@@ -43,7 +43,7 @@ export function BasketList({ items, compact }: { items: BasketItem[]; compact?: 
   );
 }
 
-const RECIPES = [["🍝", "Pasta Night"], ["🍛", "Biryani"], ["🥣", "Healthy Breakfast"], ["🎉", "Party Snacks"]];
+const RECIPES: [string, string][] = [["🍝", "Pasta Night"], ["🍛", "Biryani"], ["🥣", "Healthy Breakfast"], ["🎉", "Party Snacks"]];
 const DIETS: [Diet, string][] = [["vegan", "🌱 Vegan"], ["keto", "🥑 Keto"], ["high-protein", "💪 High-protein"], ["gluten-free", "🌾 Gluten-free"], ["low-sugar", "🍬 Low-sugar"]];
 
 export function AiStrip() {

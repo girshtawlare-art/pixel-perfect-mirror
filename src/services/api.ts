@@ -4,7 +4,7 @@ import { categories } from "@/data/categories";
 import { sleep } from "@/utils/format";
 
 export type SortKey = "relevance" | "price-asc" | "price-desc" | "discount";
-export type Query = { q?: string; category?: string; sub?: string; sort?: SortKey; diets?: Diet[]; brands?: string[]; maxPrice?: number };
+export type Query = { q?: string | undefined; category?: string | undefined; sub?: string | undefined; sort?: SortKey; diets?: Diet[]; brands?: string[]; maxPrice?: number };
 
 export const api = {
   async categories() { await sleep(250); return categories; },
